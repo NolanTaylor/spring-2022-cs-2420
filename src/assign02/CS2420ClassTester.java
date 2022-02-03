@@ -13,12 +13,12 @@ import java.util.ArrayList;
 /**
  * This class contains tests for CS2420Class.
  * 
- * @author Erin Parker and ??
+ * @author Erin Parker and Nolan Taylor and Alex Brett
  * @version January 20, 2022
  */
 public class CS2420ClassTester {
 
-	private CS2420Class emptyClass, verySmallClass, smallClass, largeClass, singleClass;
+	private CS2420Class emptyClass, verySmallClass, smallClass, largeClass, singleClass, gradeClass;
 	private CS2420Student sampleStudent;
 	private int sampleUNID = 0;
 	
@@ -57,6 +57,23 @@ public class CS2420ClassTester {
 		
 		singleClass = new CS2420Class();
 		singleClass.addStudent(new CS2420Student("Foo", "Bar", 3141592, new EmailAddress("noodle", "outlook.com")));
+		
+		gradeClass = new CS2420Class();
+		
+		gradeClass.addStudent(new CS2420Student("A", "Student", 0, new EmailAddress("", "")));
+		gradeClass.addStudent(new CS2420Student("A-", "Student", 1, new EmailAddress("", "")));
+		gradeClass.addStudent(new CS2420Student("B+", "Student", 2, new EmailAddress("", "")));
+		gradeClass.addStudent(new CS2420Student("B", "Student", 3, new EmailAddress("", "")));
+		gradeClass.addStudent(new CS2420Student("B-", "Student", 4, new EmailAddress("", "")));
+		gradeClass.addStudent(new CS2420Student("C+", "Student", 5, new EmailAddress("", "")));
+		gradeClass.addStudent(new CS2420Student("C", "Student", 6, new EmailAddress("", "")));
+		gradeClass.addStudent(new CS2420Student("C-", "Student", 7, new EmailAddress("", "")));
+		gradeClass.addStudent(new CS2420Student("D+", "Student", 8, new EmailAddress("", "")));
+		gradeClass.addStudent(new CS2420Student("D", "Student", 9, new EmailAddress("", "")));
+		gradeClass.addStudent(new CS2420Student("D-", "Student", 10, new EmailAddress("", "")));
+		gradeClass.addStudent(new CS2420Student("E", "Student", 11, new EmailAddress("", "")));
+		gradeClass.addStudent(new CS2420Student("N/A", "Student", 12, new EmailAddress("", "")));
+		gradeClass.addStudent(new CS2420Student("Failure", "Student", 13, new EmailAddress("", "")));
 	}
 	
 	// Empty CS 2420 class tests --------------------------------------------------------------------------
@@ -267,6 +284,117 @@ public class CS2420ClassTester {
 		singleClass.addScore(3141592, 10, "quiz");
 		
 		assertEquals("E", singleClass.lookup(3141592).computeFinalGrade());
+	}
+	
+	// Grades CS 2420 class tests ----------------------------------------------------------------------------
+	
+	public void scoreStudent(int uNID, int score) {
+		for (int i = 0; i < 4; i++) {
+			switch (i) {
+			case 0:
+				gradeClass.addScore(uNID, score, "assignment");
+				break;
+			case 1:
+				gradeClass.addScore(uNID, score, "exam");
+				break;
+			case 2:
+				gradeClass.addScore(uNID, score, "quiz");
+				break;
+			case 3:
+				gradeClass.addScore(uNID, score, "lab");
+				break;
+			default:
+				break;
+			}
+		}
+	}
+	
+	@Test
+	public void testGradeA() {
+		scoreStudent(0, 100);
+		assertEquals("A", gradeClass.lookup(0).computeFinalGrade());
+	}
+	
+	@Test
+	public void testGradeAMinus() {
+		scoreStudent(1, 91);
+		assertEquals("A-", gradeClass.lookup(1).computeFinalGrade());
+	}
+	
+	@Test
+	public void testGradeBPlus() {
+		scoreStudent(2, 87);
+		assertEquals("B+", gradeClass.lookup(2).computeFinalGrade());
+	}
+	
+	@Test
+	public void testGradeB() {
+		scoreStudent(3, 85);
+		assertEquals("B", gradeClass.lookup(3).computeFinalGrade());
+	}
+	
+	@Test
+	public void testGradeBMinus() {
+		scoreStudent(4, 82);
+		assertEquals("B-", gradeClass.lookup(4).computeFinalGrade());
+	}
+	
+	@Test
+	public void testGradeCPlus() {
+		scoreStudent(5, 78);
+		assertEquals("C+", gradeClass.lookup(5).computeFinalGrade());
+	}
+	
+	@Test
+	public void testGradeC() {
+		scoreStudent(6, 73);
+		assertEquals("C", gradeClass.lookup(6).computeFinalGrade());
+	}
+	
+	@Test
+	public void testGradeCMinus() {
+		scoreStudent(7, 72);
+		assertEquals("C-", gradeClass.lookup(7).computeFinalGrade());
+	}
+	
+	@Test
+	public void testGradeDPlus() {
+		scoreStudent(8, 69);
+		assertEquals("D+", gradeClass.lookup(8).computeFinalGrade());
+	}
+	
+	@Test
+	public void testGradeD() {
+		scoreStudent(9, 63);
+		assertEquals("D", gradeClass.lookup(9).computeFinalGrade());
+	}
+	
+	@Test
+	public void testGradeDMinus() {
+		scoreStudent(10, 61);
+		assertEquals("D-", gradeClass.lookup(10).computeFinalGrade());
+	}
+	
+	@Test
+	public void testGradeE() {
+		scoreStudent(11, 33);
+		assertEquals("E", gradeClass.lookup(11).computeFinalGrade());
+	}
+	
+	@Test
+	public void testGradeNotApplicable() {
+		gradeClass.addScore(12, 45, "lab");
+		assertEquals("N/A", gradeClass.lookup(12).computeFinalGrade());
+	}
+	
+	@Test
+	public void testExamBelowSixtyFive() {
+		gradeClass.addScore(13, 56, "exam");
+		gradeClass.addScore(13, 100, "assignment");
+		gradeClass.addScore(13, 100, "quiz");
+		gradeClass.addScore(13, 100, "lab");
+		
+		assertEquals(56.0, gradeClass.lookup(13).computeFinalScore(), 0.001);
 	}
 	
 	// Edge case CS 2420 class tests -------------------------------------------------------------------------

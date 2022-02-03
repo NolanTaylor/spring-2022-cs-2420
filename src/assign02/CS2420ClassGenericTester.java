@@ -13,7 +13,7 @@ import java.util.ArrayList;
 /**
  * This class contains tests for CS2420ClassGeneric.
  * 
- * @author Erin Parker and ??
+ * @author Erin Parker and Nolan Taylor and Alex Brett
  * @version January 20, 2022
  */
 public class CS2420ClassGenericTester {
@@ -270,5 +270,38 @@ public class CS2420ClassGenericTester {
 		assertEquals(new CS2420StudentGeneric<Integer>("A", "B", 2, 2), actual.get(3));
 		assertEquals(new CS2420StudentGeneric<Integer>("A", "C", 1, 1), actual.get(1));
 		assertEquals(new CS2420StudentGeneric<Integer>("D", "E", 4, 4), actual.get(0));
+	}
+	
+	@Test
+	public void testOrderUNIDEmpty() {
+		ArrayList<CS2420StudentGeneric<String>> actual = emptyClass.getOrderedByUNID();
+		assertEquals(0, actual.size());
+	}
+	
+	@Test
+	public void testOrderNameEmpty() {
+		ArrayList<CS2420StudentGeneric<String>> actual = emptyClass.getOrderedByName();
+		assertEquals(0, actual.size());
+	}
+	
+	@Test
+	public void testOrderScoreEmpty() {
+		ArrayList<CS2420StudentGeneric<String>> actual = emptyClass.getOrderedByScore(0);
+		assertEquals(0, actual.size());
+	}
+	
+	@Test
+	public void testOrderScoreCutoff() {
+		ArrayList<CS2420StudentGeneric<Integer>> actual = phase3Class.getOrderedByScore(50);
+		assertEquals(3, actual.size());
+		assertEquals(new CS2420StudentGeneric<Integer>("A", "C", 3, 3), actual.get(2));
+		assertEquals(new CS2420StudentGeneric<Integer>("A", "C", 1, 1), actual.get(1));
+		assertEquals(new CS2420StudentGeneric<Integer>("D", "E", 4, 4), actual.get(0));
+	}
+	
+	@Test
+	public void testOrderScoreMaxCutoff() {
+		ArrayList<CS2420StudentGeneric<Integer>> actual = phase3Class.getOrderedByScore(100);
+		assertEquals(0, actual.size());
 	}
 }
