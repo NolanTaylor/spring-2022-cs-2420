@@ -79,9 +79,11 @@ public class SimplePriorityQueue<E> implements PriorityQueue<E> {
 		
 		while (min <= max) {
 			int mid = (min + max)/2;
+			
 			if (array[mid] == null) {
 				return mid;
 			}
+			
 			if (!comparator) {
 				if (((Comparable<? super E>) item).compareTo(array[mid]) == 0) {
 					return mid;
@@ -99,7 +101,8 @@ public class SimplePriorityQueue<E> implements PriorityQueue<E> {
 					max = mid - 1;
 				}
 			}
-		}			
+		}
+		
 		return min;
 	}
 	
@@ -137,11 +140,11 @@ public class SimplePriorityQueue<E> implements PriorityQueue<E> {
 	 */
 	@Override
 	public void insert(E item) {
-		int index = binarySearch(item);
-		
 		if (array.length == size()) {
 			doubleArray();
 		}
+		
+		int index = binarySearch(item);
 	
 		shiftArray(index);
 		
