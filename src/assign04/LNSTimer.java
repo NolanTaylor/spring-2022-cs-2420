@@ -7,19 +7,21 @@ public class LNSTimer {
 
 	public static void main(String[] args) {
 		
-		int timesToLoop = 10;
+		int timesToLoop = 100;
 
 		int incr = 10_000;
 		System.out.println("Our Insertion Sort");
 		for(int probSize = 10_000; probSize <= 200_000; probSize += incr) {
 			List<Integer[]> numberList = new ArrayList<Integer[]>();
+			
 			for (int i = 0; i < probSize; i++) {
 				int size = (int)(Math.random() * 5);
-				Integer[] steve = new Integer[size];
+				Integer[] numArr = new Integer[size];
 				for (int j = 0; j < size; j++) {
-					steve[j] = (int) (Math.random() * 1_000);
+					numArr[j] = (int) (Math.random() * 1_000);
 				}
-				numberList.add(steve);
+				
+				numberList.add(numArr);
 			}
 			
 			// First, spin computing stuff until one second has gone by.

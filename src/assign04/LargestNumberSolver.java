@@ -22,6 +22,7 @@ import java.util.Scanner;
 public class LargestNumberSolver {
 	/**
 	 * Sorting the array by insertion sort
+	 * 
 	 * @param <T>
 	 * @param array to be sorted
 	 * @param cmp comparator by which they should be organized
@@ -39,16 +40,6 @@ public class LargestNumberSolver {
         }
     }
 	
-	
-	/**
-	 * the java sort one
-	 * @param <T>
-	 * @param arr
-	 */
-	public static <T> void javaSort(T[] arr) {
-		Arrays.sort(arr);
-	}
-	
 	/**
 	 * Find the combination of integers in an array that makes the largest
 	 * integer
@@ -57,35 +48,30 @@ public class LargestNumberSolver {
 	 */
 	@SuppressWarnings("unchecked")
 	public static BigInteger findLargestNumber(Integer[] arr) {
-		LargestCombinedInt comparator = new LargestCombinedInt();
 		Integer[] temp = new Integer[arr.length];
 		for (int i = 0; i < arr.length; i++) 
 			temp[i] = arr[i];
 		
+		insertionSort(temp, (o1, o2) -> {
+			
+			String combo1 = "" + o1 + o2; 
+			String combo2 = "" + o2 + o1;
+			
+			int combo1IntEdition = Integer.parseInt(combo1);
+			int combo2IntEdition = Integer.parseInt(combo2);
+			
+			if (combo1IntEdition > combo2IntEdition) {
+				return -1;
+			}
+			else if (combo2IntEdition > combo1IntEdition) {
+				return 1;
+			}
+			else {
+				return 0;
+			}
 		
-		insertionSort(temp, comparator);
-		StringBuilder bigNumber = new StringBuilder();
-		BigInteger finalInt;
-		if (temp.length == 0) {
-			finalInt = new BigInteger("0");
-			return finalInt;
-		}
+		});
 		
-		for(int i = 0; i < temp.length; i++) 
-			bigNumber.append(temp[i]);
-		
-		finalInt = new BigInteger(bigNumber.toString());
-		
-		return finalInt;
-	}
-	
-	public static BigInteger findLargestNumberButWithJavaSortInstead(Integer[] arr) {
-		Integer[] temp = new Integer[arr.length];
-		for (int i = 0; i < arr.length; i++) 
-			temp[i] = arr[i];
-		
-		
-		javaSort(temp);
 		StringBuilder bigNumber = new StringBuilder();
 		BigInteger finalInt;
 		if (temp.length == 0) {
@@ -104,18 +90,36 @@ public class LargestNumberSolver {
 	/**
 	 * Same as find largest number but will throw an exception if the value returned
 	 * does no fit in an int
+	 * 
 	 * @param arr
 	 * @return
 	 * @throws OutOfRangeException
 	 */
 	@SuppressWarnings("unchecked")
 	public static int findLargestInt(Integer[] arr) throws OutOfRangeException {
-		LargestCombinedInt comparator = new LargestCombinedInt();
 		Integer[] temp = new Integer[arr.length];
 		for (int i = 0; i < arr.length; i++) 
 			temp[i] = arr[i];
 		
-		insertionSort(temp, comparator);
+		insertionSort(temp, (o1, o2) -> {
+			
+			String combo1 = "" + o1 + o2; 
+			String combo2 = "" + o2 + o1;
+			
+			int combo1IntEdition = Integer.parseInt(combo1);
+			int combo2IntEdition = Integer.parseInt(combo2);
+			
+			if (combo1IntEdition > combo2IntEdition) {
+				return -1;
+			}
+			else if (combo2IntEdition > combo1IntEdition) {
+				return 1;
+			}
+			else {
+				return 0;
+			}
+		
+		});
 		
 		StringBuilder bigNumber = new StringBuilder();
 		
@@ -145,13 +149,30 @@ public class LargestNumberSolver {
 	 */
 	@SuppressWarnings("unchecked")
 	public static long findLargestLong(Integer[] arr) throws OutOfRangeException {
-		LargestCombinedInt comparator = new LargestCombinedInt();
-		
 		Integer[] temp = new Integer[arr.length];
 		for (int i = 0; i < arr.length; i++) 
 			temp[i] = arr[i];
 		
-		insertionSort(temp, comparator);
+		insertionSort(temp, (o1, o2) -> {
+			
+			String combo1 = "" + o1 + o2; 
+			String combo2 = "" + o2 + o1;
+			
+			int combo1IntEdition = Integer.parseInt(combo1);
+			int combo2IntEdition = Integer.parseInt(combo2);
+			
+			if (combo1IntEdition > combo2IntEdition) {
+				return -1;
+			}
+			else if (combo2IntEdition > combo1IntEdition) {
+				return 1;
+			}
+			else {
+				return 0;
+			}
+		
+		});
+		
 		StringBuilder bigNumber = new StringBuilder();
 		long finalInt = 0;
 		if(temp.length == 0) 
@@ -173,6 +194,7 @@ public class LargestNumberSolver {
 	/**
 	 * Sums the largest numbers that can be made from the given arrays
 	 * DOES NOT ALTER THE ARRAYS
+	 * 
 	 * @param list of int[]
 	 * @return is a sum
 	 */
@@ -190,6 +212,7 @@ public class LargestNumberSolver {
 	}
 	/**
 	 * Finds the kth largest int that can be created from the given list of arrays
+	 * 
 	 * @param list of Integer[]
 	 * @param kth largest to find
 	 * @return the array from which the kth largest is made
@@ -199,8 +222,6 @@ public class LargestNumberSolver {
 	public static Integer[] findKthLargest(List<Integer[]> list, int k) throws IllegalArgumentException {
 		BigInteger[] arrayOfBiggest = new BigInteger[list.size()];
 		
-		BigComparator comparator = new BigComparator();
-		
 		HashMap<BigInteger, Integer[]> map = new HashMap<BigInteger, Integer[]>();
 		
 		for (int i = 0; i < list.size(); i++) {
@@ -208,7 +229,9 @@ public class LargestNumberSolver {
 			map.put(arrayOfBiggest[i], list.get(i));
 		}
 		
-		insertionSort(arrayOfBiggest, comparator);
+		insertionSort(arrayOfBiggest, (o1, o2) -> {
+			return ((BigInteger) o2).compareTo((BigInteger) o1);
+		});
 		
 		if (k >= list.size() || k < 0) 
 			throw new IllegalArgumentException();
@@ -227,20 +250,27 @@ public class LargestNumberSolver {
 		return kthBiggestCorrespondingArray;
 	}
 	
+	/**
+	 * Find the Kth largest number from largest combinations in the
+	 * list, but with java's sort method instead of insertion sort.
+	 * 
+	 * @param list
+	 * @param k
+	 * @return
+	 * @throws IllegalArgumentException
+	 */
 	@SuppressWarnings("unchecked")
 	public static Integer[] findKthLargestButWithJavaSortInsteadOfOurInsertionSort(List<Integer[]> list, int k) throws IllegalArgumentException {
 		BigInteger[] arrayOfBiggest = new BigInteger[list.size()];
 		
-		BigComparator comparator = new BigComparator();
-		
 		HashMap<BigInteger, Integer[]> map = new HashMap<BigInteger, Integer[]>();
 		
 		for (int i = 0; i < list.size(); i++) {
-			arrayOfBiggest[i] = findLargestNumberButWithJavaSortInstead(list.get(i));
+			arrayOfBiggest[i] = findLargestNumber(list.get(i));
 			map.put(arrayOfBiggest[i], list.get(i));
 		}
 		
-		insertionSort(arrayOfBiggest, comparator);
+		Arrays.sort(arrayOfBiggest);
 		
 		if (k >= list.size() || k < 0) 
 			throw new IllegalArgumentException();
@@ -283,7 +313,7 @@ public class LargestNumberSolver {
 			
 		}
 		catch (IOException e) {
-			System.out.println("File " + filename + " does not exist");
+			return list;
 		}
 		return list;
 	}
