@@ -28,14 +28,19 @@ public class LargestNumberSolver {
 	 * @param cmp comparator by which they should be organized
 	 */
 	public static <T> void insertionSort(T[] arr, Comparator<? super T> cmp) {
+		// for each value in the array after 0
         for (int i = 1; i < arr.length; i++) {
             T value = arr[i];
+            
             int j = i - 1;
             
+            // while the current value should come after i, shift j up by 1
             while (j >= 0 && cmp.compare(arr[j], value) > 0) {
                 arr[j + 1] = arr[j];
                 j = j - 1;
             }
+            
+            // set j + 1 and loop again
             arr[j + 1] = value;
         }
     }
