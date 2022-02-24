@@ -7,16 +7,14 @@ public class ArrayListSorterTimer {
 
 	public static void main(String[] args) {
 		
-		int timesToLoop = 50;
+		int timesToLoop = 100;
 
-		int incr = 10_000;
+		int incr = 1_000;
 		
-		System.out.println("Mergesort threshold 16");
+		System.out.println("Mergesort threshold 0");
 		
-		for(int probSize = 10_000; probSize <= 200_000; probSize += incr) {
+		for(int probSize = 1_000; probSize <= 20_000; probSize += incr) {
 			List<Integer[]> numberList = new ArrayList<Integer[]>();
-			
-			ArrayList<Integer> permutedList = ArrayListSorter.generatePermuted(probSize);
 			
 			// First, spin computing stuff until one second has gone by.
 			// This allows this thread to stabilize.
@@ -24,12 +22,13 @@ public class ArrayListSorterTimer {
 			long stopTime, midpointTime, startTime = System.nanoTime();
 
 			while(System.nanoTime() - startTime < 1_000_000_000) { // empty block
+				
 			}
 
 			// Collect running times.
 			startTime = System.nanoTime();
 			for(int i = 0; i < timesToLoop; i++) {
-				ArrayListSorter.mergesort(permutedList);
+				ArrayListSorter.mergesort(ArrayListSorter.generatePermuted(probSize));
 			}
 
 			midpointTime = System.nanoTime();
@@ -37,7 +36,7 @@ public class ArrayListSorterTimer {
 			// Capture the cost of running the loop and any other operations done
 			// above that are not the essential method call being timed.
 			for(int i = 0; i < timesToLoop; i++) {
-				
+				ArrayListSorter.generatePermuted(probSize);
 			}
 
 			stopTime = System.nanoTime();

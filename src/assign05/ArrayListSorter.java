@@ -6,9 +6,9 @@ import java.util.Random;
 
 public class ArrayListSorter {
 	
-	private static int seed = 6940;
-	private static int insertionThreshold = 16;
-	private static int pivotType = 0;
+	private static int seed = 69420;
+	private static int insertionThreshold = 2;
+	private static int pivotType = 2;
 	
 	public static <T extends Comparable<? super T>> void mergesort(ArrayList<T> array) {
 		sort(array, 0, array.size() - 1);
@@ -76,7 +76,55 @@ public class ArrayListSorter {
         }
 	}
 	
+	/*
+	static <T extends Comparable<? super T>> int partition(ArrayList<T> arr, int low, int high)
+	{
+	     
+	    // pivot
+	    int pivot = high;
+	     
+	    // Index of smaller element and
+	    // indicates the right position
+	    // of pivot found so far
+	    int i = (low - 1);
+	 
+	    for(int j = low; j <= high - 1; j++)
+	    {
+	         
+	        // If current element is smaller
+	        // than the pivot
+	        if (arr.get(j).compareTo(arr.get(pivot)) < 0)
+	        {
+	             
+	            // Increment index of
+	            // smaller element
+	            i++;
+	            swap(arr, i, j);
+	        }
+	    }
+	    swap(arr, i + 1, high);
+	    return (i + 1);
+	}
+	 
+	static <T extends Comparable<? super T>> void quickSort(ArrayList<T> arr, int low, int high)
+	{
+	    if (low < high)
+	    {
+	         
+	        // pi is partitioning index, arr[p]
+	        // is now at right place
+	        int pi = partition(arr, low, high);
+	 
+	        // Separately sort elements before
+	        // partition and after partition
+	        quickSort(arr, low, pi - 1);
+	        quickSort(arr, pi + 1, high);
+	    }
+	}
+	*/
+	
 	public static <T extends Comparable<? super T>> void quicksort(ArrayList<T> array) {
+		//quickSort(array, 0, array.size() - 1);
 		partition(array, 0, array.size() - 1);
 	}
 	
@@ -90,6 +138,12 @@ public class ArrayListSorter {
 			for (int i = low; i <= high; i++) {
 				if (array.get(i).compareTo(array.get(pivot)) <= 0) {
 					store++;
+					if (store == pivot) {
+						pivot = i;
+					}
+					else if (i == pivot) {
+						pivot = store;
+					}
 					swap(array, store, i);
 				}
 			}

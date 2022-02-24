@@ -177,6 +177,19 @@ public class ArrayListSorterTester {
 	}
 	
 	@Test
+	public void testMergeSorted() {
+		ArrayList<Integer> anotherSortedList = new ArrayList<Integer>();
+		
+		for (Integer item : sortedList) {
+			anotherSortedList.add(item);
+		}
+		
+		ArrayListSorter.mergesort(anotherSortedList);
+		
+		assertEquals(sortedList, anotherSortedList);
+	}
+	
+	@Test
 	public void testMergeBigPermuted() {
 		// make sure no errors are thrown
 		ArrayListSorter.mergesort(ArrayListSorter.generatePermuted(1000));
@@ -205,6 +218,19 @@ public class ArrayListSorterTester {
 		ArrayList<Integer> newMT = new ArrayList<Integer>();
 		ArrayListSorter.quicksort(emptyList);
 		assertEquals(newMT, emptyList);
+	}
+	
+	@Test
+	public void testQuickSorted() {
+		ArrayList<Integer> anotherSortedList = new ArrayList<Integer>();
+		
+		for (Integer item : sortedList) {
+			anotherSortedList.add(item);
+		}
+		
+		ArrayListSorter.quicksort(anotherSortedList);
+		
+		assertEquals(sortedList, anotherSortedList);
 	}
 	
 	@Test
